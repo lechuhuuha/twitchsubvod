@@ -10,17 +10,25 @@ import SavedSearched from './components/savedSearched';
 import init, { setLocalStorage } from './services/localStorage';
 
 function App() {
-  const [storageUpdate, setStorageUpdate] = useState(false);
+  const [render, setRender] = useState(false);
+  const [reRender, setReRender] = useState(false);
+  useEffect(() => {
+    setRender(true);
+  }, []);
   const routeUpdate = () => {
-    console.log('user search updated');
-    setStorageUpdate(true);
+    setRender(!render);
+    setReRender(!reRender);
   };
+  const [seletedVal, setSelectedVal] = useState('');
+
   return (
     <>
       <ThemeToggler />
-      {storageUpdate && <SavedSearched />}
+      {(render || reRender) && (
+        <SavedSearched onSelect={setSelectedVal} onUpdate={routeUpdate} />
+      )}
       <GlobalStyle />
-      <Routes update={routeUpdate} />
+      <Routes update={routeUpdate} selectedVal={seletedVal} />
     </>
   );
 }
