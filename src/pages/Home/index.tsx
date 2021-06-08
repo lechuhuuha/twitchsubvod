@@ -35,10 +35,10 @@ const Home: React.FC = (props: any) => {
   const [username, setUsername] = useState('');
   const [twitchData, setTwitchData] = useState<TwitchVideoProps>();
   const [quality, setQuality] = useState('chunked');
+  const [searchType, setSearchType] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-
-  // user data
+  // ajax user data when start typing
   useEffect(() => {
     if (username) {
       api
@@ -53,7 +53,7 @@ const Home: React.FC = (props: any) => {
         });
     }
   }, [username]);
-  // channel data
+  // channel data list 
   function appendDatalist(channelData: Array<any>) {
     const dataList: any = document.querySelector('#streamer-username');
     // console.log(channelData);
@@ -85,8 +85,13 @@ const Home: React.FC = (props: any) => {
       setUserStorage(false);
     }
   }, [userStorage]);
-
+  const [selectedVal, setSelectedVal] = useState(props.selectedVal);
+  useEffect(() => {
+    setSelectedVal(props.selectedVal);
+    setUsername(selectedVal);
+  });
   // handle submit
+
   const handleSubmit = () => {
     if (username) {
       setLoading(true);
@@ -129,7 +134,7 @@ const Home: React.FC = (props: any) => {
       setError('Enter a streamer username');
     }
   };
-  // console.clear();
+
   return (
     <Container>
       <AnimationContainer>
