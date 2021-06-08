@@ -12,12 +12,12 @@ import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 // import api from './services/api';
 
-interface routeProps{
-  update: Function
+interface routeProps {
+  update: Function;
+  selectedVal: any;
 }
 
 const Routes: React.FC<routeProps> = (props: any) => {
-
   return (
     <Router>
       <Switch>
