@@ -35,7 +35,7 @@ const Home: React.FC = (props: any) => {
   const [username, setUsername] = useState('');
   const [twitchData, setTwitchData] = useState<TwitchVideoProps>();
   const [quality, setQuality] = useState('chunked');
-  const [searchType, setSearchType] = useState('');
+  const [searchType, setSearchType] = useState('chunked');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   // ajax user data when start typing
@@ -53,7 +53,7 @@ const Home: React.FC = (props: any) => {
         });
     }
   }, [username]);
-  // channel data list 
+  // channel data list
   function appendDatalist(channelData: Array<any>) {
     const dataList: any = document.querySelector('#streamer-username');
     // console.log(channelData);
@@ -85,11 +85,12 @@ const Home: React.FC = (props: any) => {
       setUserStorage(false);
     }
   }, [userStorage]);
-  const [selectedVal, setSelectedVal] = useState(props.selectedVal);
+
+  // const [selectedVal, setSelectedVal] = useState(props.selectedVal); deprecated
   useEffect(() => {
-    setSelectedVal(props.selectedVal);
-    setUsername(selectedVal);
-  });
+    // setSelectedVal(props.selectedVal);
+    setUsername(props.selectedVal);
+  }, [props.selectedVal]);
   // handle submit
 
   const handleSubmit = () => {
@@ -99,13 +100,38 @@ const Home: React.FC = (props: any) => {
         setError('');
         api.get(`users?login=${username}`).then((response) => {
           initLocalStorage(username);
-          // console.log(response.data.users[0]._id, 'user details');
+          // console.log(response.data.users[0]);
+          // console.log(response.data.users[0]._id, 'user id');
           setUserStorage(true);
           try {
             api
               .get(`channels/${response.data.users[0]._id}/videos?limit=100`)
               .then((channelResponse: any) => {
-                // console.log(channelResponse.data.videos, 'chanel response');
+                console.log(channelResponse.data.videos, 'chanel response');
+                const addCategory = async (item: any) => {
+                  await fetch('http://localhost:3002/video', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(item),
+                  });
+                };
+                channelResponse.data.videos.map((item: any) => {
+                  let newsItem = {
+                    streamersId: response.data.users[0]._id,
+                    title: item.title,
+                    views: item.views,
+                    url: item.url,
+                    created_at: item.created_at,
+                    published_at: item.published_at,
+                    delete_at: item.delete_at,
+                    recorded_at: item.recorded_at,
+                    game: item.game,
+                    thumbnails: item.thumbnails.medium.url,
+                  };
+                  addCategory(newsItem);
+                });
                 channelResponse.data.videos.length !== 0 &&
                   setTwitchData(channelResponse.data);
                 setLoading(false);
@@ -135,6 +161,10 @@ const Home: React.FC = (props: any) => {
     }
   };
 
+  useEffect(() => {
+    console.log(searchType);
+  }, [searchType]);
+  // console.clear();
   return (
     <Container>
       <AnimationContainer>
@@ -159,7 +189,11 @@ const Home: React.FC = (props: any) => {
           <QualitySelection
             onChange={(event: any) => setQuality(event.target.value)}
           />
-          <SearchSelection />
+          <SearchSelection
+            onChange={(e: any) => {
+              setSearchType(e.target.value);
+            }}
+          />
           <button type="submit" aria-label="submit" onClick={handleSubmit}>
             <FiSearch size={14} />
             Search
