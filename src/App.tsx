@@ -12,6 +12,7 @@ import init, { setLocalStorage } from './services/localStorage';
 function App() {
   const [render, setRender] = useState(false);
   const [reRender, setReRender] = useState(false);
+  const [searchType, setSearchType] = useState('');
   useEffect(() => {
     setRender(true);
   }, []);
@@ -28,7 +29,11 @@ function App() {
         <SavedSearched onSelect={setSelectedVal} onUpdate={routeUpdate} />
       )}
       <GlobalStyle />
-      <Routes update={routeUpdate} selectedVal={seletedVal} />
+      <Routes
+        update={routeUpdate}
+        searchType={searchType}
+        selectedVal={seletedVal}
+      />
     </>
   );
 }
