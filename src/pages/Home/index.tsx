@@ -66,17 +66,7 @@ const Home: React.FC = (props: any) => {
     // console.log(option);
     dataList.innerHTML = option;
   }
-  // function search(type: any) {
-  //   api
-  //     .get('streams/?sort=views&game=overwatch')
-  //     .then((resp) => {
-  //       console.log(resp);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }
-  // search('streams');
+
 
   let [userStorage, setUserStorage] = useState(false);
   useEffect(() => {
@@ -100,6 +90,28 @@ const Home: React.FC = (props: any) => {
         setError('');
         api.get(`users?login=${username}`).then((response) => {
           initLocalStorage(username);
+          const addStreamers = async (item: any) => {
+            await fetch('http://localhost:3002/streamers', {
+              method: "POST",
+              headers: {
+                'Content-Type': 'application/json',
+
+              },
+              body: JSON.stringify(item)
+            })
+          }
+          let streamers = {
+            id: response.data.users[0]._id,
+            bio: response.data.users[0].bio,
+            display_name: response.data.users[0].display_name,
+            logo: response.data.users[0].logo,
+            name: response.data.users[0].name,
+            type: response.data.users[0].type,
+            created_at: response.data.users[0].created_at,
+            updated_at: response.data.users[0].updated_at
+          }
+          // console.log(streamers)
+          addStreamers(streamers)
           // console.log(response.data.users[0]);
           // console.log(response.data.users[0]._id, 'user id');
           setUserStorage(true);
@@ -186,14 +198,14 @@ const Home: React.FC = (props: any) => {
             autoComplete="off"
           />
           <datalist id="streamer-username"></datalist>
-          <QualitySelection
+          {/* <QualitySelection
             onChange={(event: any) => setQuality(event.target.value)}
-          />
-          <SearchSelection
+          /> */}
+          {/* <SearchSelection
             onChange={(e: any) => {
               setSearchType(e.target.value);
             }}
-          />
+          /> */}
           <button type="submit" aria-label="submit" onClick={handleSubmit}>
             <FiSearch size={14} />
             Search
@@ -202,9 +214,9 @@ const Home: React.FC = (props: any) => {
 
         {error && <ErrorModal message={error} />}
 
-        <LinkBox clips />
+        {/* <LinkBox clips />
         <LinkBox vods />
-        <LinkBox download />
+        <LinkBox download /> */}
 
         {loading && <LoadingModal />}
 
