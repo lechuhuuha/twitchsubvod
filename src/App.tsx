@@ -7,7 +7,7 @@ import Routes from './routes';
 import './components/css-vars.css';
 import ThemeToggler from './components/ThemeToggler/ThemeToggler';
 import SavedSearched from './components/savedSearched';
-import init, { setLocalStorage } from './services/localStorage';
+// import init, { setLocalStorage } from './services/localStorage';
 
 function App() {
   const [render, setRender] = useState(false);
