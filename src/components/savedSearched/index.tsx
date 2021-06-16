@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import initLocalStorage, {
+import React from 'react';
+import {
   deleteItem,
   getLocalStorage,
 } from '../../services/localStorage';
 import { Container, Ul, Li } from './styles';
 
-interface savedSearchedProps {
-  onUpdate: Function;
-  onSelect: Function;
-}
+// interface savedSearchedProps {
+//   onUpdate: Function;
+//   onSelect: Function;
+// }
 
 const SavedSearched = (props: any) => {
   // props.onUpdate();

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -10,7 +10,7 @@ import {
 // import DownloadClip from './pages/DownloadClip';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
-import Search from './pages/Search';
+// import Search from './pages/Search';
 // import api from './services/api';
 
 interface routeProps {
