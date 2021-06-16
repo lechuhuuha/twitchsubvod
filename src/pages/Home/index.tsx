@@ -6,14 +6,14 @@ import api from '../../services/api';
 
 import { Container, AnimationContainer } from './styles';
 import VodGallery from '../../components/VodGallery';
-import LinkBox from '../../components/LinkBox';
+// import LinkBox from '../../components/LinkBox';
 import Footer from '../../components/Footer';
-import QualitySelection from '../../components/QualitySelection';
+// import QualitySelection from '../../components/QualitySelection';
 import ErrorModal from '../../components/ErrorModal';
 import LoadingModal from '../../components/LoadingModal';
-import SearchSelection from '../../components/searchSelection';
-import initLocalStorage, { getLocalStorage } from '../../services/localStorage';
-import SavedSearched from '../../components/savedSearched';
+// import SearchSelection from '../../components/searchSelection';
+import initLocalStorage from '../../services/localStorage';
+// import SavedSearched from '../../components/savedSearched';
 
 interface TwitchVideoProps {
   videos: Array<{
@@ -35,7 +35,7 @@ const Home: React.FC = (props: any) => {
   const [username, setUsername] = useState('');
   const [twitchData, setTwitchData] = useState<TwitchVideoProps>();
   const [quality, setQuality] = useState('chunked');
-  const [searchType, setSearchType] = useState('chunked');
+  // const [searchType, setSearchType] = useState('chunked');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   // ajax user data when start typing
@@ -110,8 +110,9 @@ const Home: React.FC = (props: any) => {
             created_at: response.data.users[0].created_at,
             updated_at: response.data.users[0].updated_at
           }
-          // console.log(streamers)
           addStreamers(streamers)
+
+          // console.log(streamers)
           // console.log(response.data.users[0]);
           // console.log(response.data.users[0]._id, 'user id');
           setUserStorage(true);
@@ -173,9 +174,9 @@ const Home: React.FC = (props: any) => {
     }
   };
 
-  useEffect(() => {
-    console.log(searchType);
-  }, [searchType]);
+  // useEffect(() => {
+  //   console.log(searchType);
+  // }, [searchType]);
   // console.clear();
   return (
     <Container>
